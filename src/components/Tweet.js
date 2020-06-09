@@ -4,11 +4,21 @@ import { formatTweet, formatDate } from "../utils/helpers";
 import { TiArrowBackOutline } from "react-icons/ti";
 import { TiHeartOutline } from "react-icons/ti";
 import { TiHeartFullOutline } from "react-icons/ti";
+import { handleToggleTweet } from "../actions/tweets";
 
 class Tweet extends Component {
   handleLike = (e) => {
     e.preventDefault();
-    // todo: Handle like Tweet
+
+    const { dispatch, tweet, authedUser } = this.props;
+
+    dispatch(
+      handleToggleTweet({
+        id: tweet.id,
+        hasLiked: tweet.hasLiked,
+        authedUser,
+      })
+    );
   };
   toParent = (e, id) => {
     e.preventDefault();
@@ -16,6 +26,8 @@ class Tweet extends Component {
   };
   render() {
     const { tweet } = this.props;
+
+    console.log("this tweet: ==> ", tweet);
 
     if (tweet === null) {
       return <p>This Tweet doesn't exists</p>;
@@ -29,7 +41,6 @@ class Tweet extends Component {
       hasLiked,
       likes,
       replies,
-      id,
       parent,
     } = tweet;
 
